@@ -34,13 +34,15 @@
 
 
             .board {
-            padding: 5px;
-            border: 2px solid gray;
-            border-radius: 8px;
-            /* width: fit-content; */
-            width: 90%;
-            margin: 50px auto;
-        }
+                padding: 5px;
+                border: 2px solid gray;
+                border-radius: 8px;
+                /* width: fit-content; */
+                width: 90%;
+                margin: 50px auto;
+            }
+
+        
         }
 
 
@@ -140,12 +142,15 @@
             font-size: 1.5rem;
             color: rgb(3, 37, 3);
             /* margin-top: 20px; */
-            background-color: aqua;
+            /* background-color: aqua; */
+            background-color: tomato;
+            color: white;
             /* margin: 100px 200px; */
             padding: 10px;
             /* border: 1px solid palevioletred; */
             border-radius: 8px;
         }
+
     </style>
 </head>
 <body>
@@ -173,6 +178,7 @@
         </div> 
 
         <button class="reset-button" onclick="resetBoard()">Reset Game</button>
+
         <div style="display: flex;justify-content: center;">
         <p id="winnerMessage" class="winner-message"></p> 
         </div>
