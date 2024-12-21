@@ -52,7 +52,7 @@ function resetBoard() {
   renderBoard();
   currentPlayer = "X";
   document.getElementById("currentPlayer").innerText = currentPlayer;
-  document.getElementById("winnerMessage").textContent = ""; // Clear winner message
+  document.getElementById("winnerMessage").textContent = "";
 }
 
 function checkForWinner() {
