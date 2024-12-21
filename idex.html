@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+
+    <style>
+
+        @media (max-width: 768px) {
+            .container {
+            height: auto;
+            width: 94%;
+            border: 1px solid white;
+            border-radius: 4px;
+            margin: 100px auto;
+            background-color: white;
+        }
+        }
+
+        @media (min-width: 769px) {
+            .container {
+            height: auto;
+            width: 50%;
+            border: 1px solid white;
+            border-radius: 4px;
+            margin: 100px auto;
+            background-color: white;
+        }
+        }
+
+        body {
+            /* background-color: #ffe6cc; */
+            /* background-color: #f2f2f2; */
+            background-color: #192733;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* .container {
+            height: auto;
+            width: 30%;
+            border: 1px solid gray;
+            margin: 100px auto;
+        } */
+
+        .heading {
+            margin-top: 15%;
+            text-align: center;
+            font-size: 40px;
+        }
+
+        .current-player {
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .board {
+            padding: 5px;
+            border: 2px solid gray;
+            border-radius: 10px;
+            width: fit-content;
+            margin: 50px auto;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            background-color: rgb(65, 71, 69);
+        }
+
+        .box {
+            background-color: #fff;
+            border-radius: 8px;
+            height: 100px;
+            width: 100px;
+            margin: 5px;
+            text-align: center;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box:hover {
+            cursor: pointer;
+            transition: 1s;
+            box-shadow: 0 0 5px 2px rgb(25, 0, 255);
+        }
+
+        .reset-button {
+            display: block;
+            margin: 20px auto;
+            font-size: 1.3rem;
+            background-color: aqua;
+            padding: 10px;
+            border: 1px solid aqua;
+            border-radius: 8px;
+        }
+
+        .winner-message {
+            display: block;
+            text-align: center;
+            font-size: 1.5rem;
+            color: rgb(3, 37, 3);
+            /* margin-top: 20px; */
+            background-color: aqua;
+            /* margin: 100px 200px; */
+            padding: 10px;
+            /* border: 1px solid palevioletred; */
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="heading">Tic Tac Toe</h1>
+
+        <p class="current-player">Current Player: <span id="currentPlayer">X</span></p>
+        
+        <div class="board">
+            <div class="row">
+                <div class="box" onclick="selectBox(0)"></div>
+                <div class="box" onclick="selectBox(1)"></div>
+                <div class="box" onclick="selectBox(2)"></div>
+            </div>
+            <div class="row">
+                <div class="box" onclick="selectBox(3)"></div>
+                <div class="box" onclick="selectBox(4)"></div>
+                <div class="box" onclick="selectBox(5)"></div>
+            </div>
+            <div class="row">
+                <div class="box" onclick="selectBox(6)"></div>
+                <div class="box" onclick="selectBox(7)"></div>
+                <div class="box" onclick="selectBox(8)"></div>
+            </div>
+        </div> 
+
+        <button class="reset-button" onclick="resetBoard()">Reset Game</button>
+        <div style="display: flex;justify-content: center;">
+        <p id="winnerMessage" class="winner-message"></p> 
+        </div>
+
+    </div>
+
+    <script>
+        const board = [-1, -1, -1, -1, -1, -1, -1, -1, -1];
+        let currentPlayer = "X";
+        let gameOver = false; 
+
+
+        function renderBoard() {
+            const allBoxes = document.querySelectorAll('.box');
+            allBoxes.forEach((boxElement, i) => {
+                if(board[i] !== -1) {
+                    boxElement.textContent = board[i];
+                } else {
+                    boxElement.textContent = '';
+                }
+            });
+        }
+
+
+        function selectBox(boxNumber) {
+            if (board[boxNumber] !== -1) {
+                alert('Box already selected!');
+                return;
+            }
+
+            if (gameOver) {
+                alert('Game is over!');
+                return;
+            }
+
+            board[boxNumber] = currentPlayer;
+            renderBoard();
+
+            if (checkForWinner()) {
+                document.getElementById('winnerMessage').textContent = `Player ${currentPlayer} wins!`;
+                gameOver = true;
+                return;
+            }
+
+            if (board.every(cell => cell !== -1)) {
+                // document.getElementById('winnerMessage').textContent = "It's a tie!";
+                alert("It's a tie!");
+                gameOver = true;
+                return;
+            }
+
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            document.getElementById("currentPlayer").innerText = currentPlayer;
+        }
+
+
+
+        function resetBoard() {
+            board.fill(-1);
+            gameOver = false;
+            renderBoard();
+            currentPlayer = "X";
+            document.getElementById("currentPlayer").innerText = currentPlayer;
+            document.getElementById('winnerMessage').textContent = ''; // Clear winner message
+        }
+
+        function checkForWinner() {
+            const winningPlayers = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+                [0, 4, 8], [2, 4, 6]             
+            ];
+
+            for (const Players of winningPlayers) {
+                const [a, b, c] = Players;
+                if(board[a] !== -1 && board[a] === board[b] && board[a] === board[c]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        renderBoard();
+
+    </script>
+</body>
+</html>
